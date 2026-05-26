@@ -1,0 +1,13 @@
+{
+  "zone": "IT",
+  "carbonIntensity": 170,
+  "datetime": "2026-05-24T15:00:00.000Z",
+  "updatedAt": "2026-05-24T14:20:06.412Z",
+  "createdAt": "2026-05-23T22:35:08.423Z",
+  "emissionFactorType": "lifecycle",
+  "isEstimated": true,
+  "estimationMethod": "TIME_SLICER_AVERAGE",
+  "temporalGranularity": "hourly",
+  "region_name": "Italy",
+  "fetched_at": "2026-05-24T15:25:46.493827"
+}

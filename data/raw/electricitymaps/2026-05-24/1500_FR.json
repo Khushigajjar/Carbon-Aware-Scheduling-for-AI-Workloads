@@ -1,0 +1,13 @@
+{
+  "zone": "FR",
+  "carbonIntensity": 19,
+  "datetime": "2026-05-24T15:00:00.000Z",
+  "updatedAt": "2026-05-24T14:49:59.480Z",
+  "createdAt": "2026-05-23T22:35:10.285Z",
+  "emissionFactorType": "lifecycle",
+  "isEstimated": true,
+  "estimationMethod": "TIME_SLICER_AVERAGE",
+  "temporalGranularity": "hourly",
+  "region_name": "France",
+  "fetched_at": "2026-05-24T15:25:45.868870"
+}

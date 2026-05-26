@@ -1,0 +1,13 @@
+{
+  "zone": "DE",
+  "carbonIntensity": 169,
+  "datetime": "2026-05-24T15:00:00.000Z",
+  "updatedAt": "2026-05-24T14:20:11.837Z",
+  "createdAt": "2026-05-23T22:35:14.623Z",
+  "emissionFactorType": "lifecycle",
+  "isEstimated": true,
+  "estimationMethod": "FORECASTS_HIERARCHY",
+  "temporalGranularity": "hourly",
+  "region_name": "Germany",
+  "fetched_at": "2026-05-24T15:25:46.021106"
+}
