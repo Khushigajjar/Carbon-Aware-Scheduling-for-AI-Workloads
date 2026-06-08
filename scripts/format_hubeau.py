@@ -1,8 +1,8 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import col, lit, to_timestamp, round, when
+from pyspark.sql.functions import col, lit, to_timestamp, when
 import os
+import json
 from datetime import datetime, timezone
-import shutil
 
 def format_hubeau():
     spark = SparkSession.builder \
@@ -12,7 +12,8 @@ def format_hubeau():
     spark.sparkContext.setLogLevel("ERROR")
 
     date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    base = "/data" if os.path.exists("/data") else "data"
+    base = "/opt/airflow/data" if os.path.exists("/opt/airflow/data") else "/data" if os.path.exists("/data") else "data"
+
     input_file = f"{base}/raw/hubeau/{date_str}/river_flows.json"
     output_dir = f"{base}/formatted/hubeau/{date_str}"
 
@@ -20,14 +21,10 @@ def format_hubeau():
         print(f"No raw data found for {date_str}")
         return
 
-    # Read raw JSON
-    df_raw = spark.read.option("multiline", "true").json(input_file)
-
-    rows = []
-    import json
     with open(input_file, "r") as f:
         raw = json.load(f)
 
+    rows = []
     for zone, content in raw.items():
         records = content.get("data", [])
         if records and records[0]:
@@ -46,7 +43,6 @@ def format_hubeau():
 
     df = spark.createDataFrame(rows)
 
-    # Normalize
     df_formatted = df.select(
         col("zone"),
         col("region_name"),
@@ -58,19 +54,13 @@ def format_hubeau():
         col("latitude"),
         col("longitude"),
         lit(date_str).alias("partition_date"),
-        # Water stress flag: below 500 l/s = low, 500-2000 = medium, above = normal
         when(col("river_flow_l_s") < 500, "low")
         .when(col("river_flow_l_s") < 2000, "medium")
         .otherwise("normal").alias("water_level_status")
     )
 
-    os.makedirs(output_dir, exist_ok=True)
-    
-    if os.path.exists(output_dir):
-        shutil.rmtree(output_dir)
-    df_formatted.write.parquet(output_dir)
+    df_formatted.write.mode("overwrite").parquet(output_dir)
     print(f"Formatted {df_formatted.count()} records → {output_dir}")
-
     df_formatted.show(truncate=False)
     spark.stop()
 

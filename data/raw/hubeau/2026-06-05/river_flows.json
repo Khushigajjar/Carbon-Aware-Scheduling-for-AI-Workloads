@@ -1,0 +1,112 @@
+{
+  "FR-IDF": {
+    "region_name": "Ile-de-France",
+    "fetched_at": "2026-06-05T20:53:01.742926",
+    "data": [
+      {
+        "code_site": "F4450001",
+        "code_station": "F445000101",
+        "date_obs_elab": "2024-12-01",
+        "resultat_obs_elab": 1762.0,
+        "date_prod": "2026-05-31T14:54:26Z",
+        "code_statut": 16,
+        "libelle_statut": "Donn\u00e9e valid\u00e9e",
+        "code_methode": 8,
+        "libelle_methode": "Calcul\u00e9e",
+        "code_qualification": 20,
+        "libelle_qualification": "Bonne",
+        "longitude": 2.785544776,
+        "latitude": 48.569682884,
+        "grandeur_hydro_elab": "QmM"
+      }
+    ]
+  },
+  "FR-ARA": {
+    "region_name": "Auvergne-Rhone-Alpes",
+    "fetched_at": "2026-06-05T20:53:01.950547",
+    "data": [
+      {
+        "code_site": "K0663310",
+        "code_station": "K066331001",
+        "date_obs_elab": "2024-12-01",
+        "resultat_obs_elab": 1161.0,
+        "date_prod": "2026-05-31T13:37:06Z",
+        "code_statut": 16,
+        "libelle_statut": "Donn\u00e9e valid\u00e9e",
+        "code_methode": 10,
+        "libelle_methode": "Expertis\u00e9e",
+        "code_qualification": 20,
+        "libelle_qualification": "Bonne",
+        "longitude": 4.525248362,
+        "latitude": 45.628020603,
+        "grandeur_hydro_elab": "QmM"
+      }
+    ]
+  },
+  "FR-OCC": {
+    "region_name": "Occitanie",
+    "fetched_at": "2026-06-05T20:53:02.083399",
+    "data": [
+      {
+        "code_site": "O0794010",
+        "code_station": "O079401001",
+        "date_obs_elab": "2024-12-01",
+        "resultat_obs_elab": 14677.0,
+        "date_prod": "2026-05-31T15:28:25Z",
+        "code_statut": 16,
+        "libelle_statut": "Donn\u00e9e valid\u00e9e",
+        "code_methode": 10,
+        "libelle_methode": "Expertis\u00e9e",
+        "code_qualification": 20,
+        "libelle_qualification": "Bonne",
+        "longitude": 1.193607703,
+        "latitude": 43.241706422,
+        "grandeur_hydro_elab": "QmM"
+      }
+    ]
+  },
+  "FR-NAQ": {
+    "region_name": "Nouvelle-Aquitaine",
+    "fetched_at": "2026-06-05T20:53:02.246025",
+    "data": [
+      {
+        "code_site": "O9372510",
+        "code_station": "O937251002",
+        "date_obs_elab": "2025-01-01",
+        "resultat_obs_elab": 20410.0,
+        "date_prod": "2026-05-31T14:40:55Z",
+        "code_statut": 12,
+        "libelle_statut": "Donn\u00e9e pr\u00e9-valid\u00e9e",
+        "code_methode": 8,
+        "libelle_methode": "Calcul\u00e9e",
+        "code_qualification": 16,
+        "libelle_qualification": "Non qualifi\u00e9e",
+        "longitude": -0.033595652,
+        "latitude": 44.631899327,
+        "grandeur_hydro_elab": "QmM"
+      }
+    ]
+  },
+  "FR-HDF": {
+    "region_name": "Hauts-de-France",
+    "fetched_at": "2026-06-05T20:53:02.380613",
+    "data": [
+      {
+        "code_site": "E1310002",
+        "code_station": "E131000202",
+        "date_obs_elab": "2024-12-01",
+        "resultat_obs_elab": 1476.0,
+        "date_prod": "2026-05-31T15:01:08Z",
+        "code_statut": 4,
+        "libelle_statut": "Donn\u00e9e brute",
+        "code_methode": 8,
+        "libelle_methode": "Calcul\u00e9e",
+        "code_qualification": 16,
+        "libelle_qualification": "Non qualifi\u00e9e",
+        "longitude": 3.309357499,
+        "latitude": 50.237393972,
+        "grandeur_hydro_elab": "QmM"
+      }
+    ]
+  }
+}

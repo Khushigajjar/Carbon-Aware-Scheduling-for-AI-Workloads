@@ -12,7 +12,7 @@ def combine():
     spark.sparkContext.setLogLevel("ERROR")
 
     date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    base = "/data" if os.path.exists("/data") else "data"
+    base = "/opt/airflow/data" if os.path.exists("/opt/airflow/data") else "/data" if os.path.exists("/data") else "data"
 
     elec_dir = f"{base}/formatted/electricitymaps/{date_str}"
     water_dir = f"{base}/formatted/hubeau/{date_str}"
@@ -46,10 +46,10 @@ def combine():
     ).withColumn(
         "ai_query_cost_gco2",
         lit(float(fr_carbon["ai_query_cost_gco2"]))
-    ).withColumn(
-        "electricity_timestamp_utc",
-        lit(str(fr_carbon["timestamp_utc"]))
-    )
+        ).withColumn(
+    "electricity_timestamp_utc",
+    lit(datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:00:00"))
+)
 
     # Compute energy stress score (0-1): France avg is ~60 gCO2/kWh
     df_combined = df_combined.withColumn(
@@ -107,7 +107,8 @@ def combine():
     # Save to usage layer
     if os.path.exists(output_dir):
         shutil.rmtree(output_dir)
-    df_final.write.parquet(output_dir)
+    #
+    df_final.write.mode("overwrite").parquet(output_dir)
 
     print(f"Combined {df_final.count()} records → {output_dir}")
     df_final.show(truncate=False)

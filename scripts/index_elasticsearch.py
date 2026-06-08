@@ -1,12 +1,11 @@
 import json
 import os
 from datetime import datetime, timezone
+from pydoc import doc
 from elasticsearch import Elasticsearch
 from pyspark.sql import SparkSession
-import shutil
 
 def index_to_elasticsearch():
-    # Connect to Elasticsearch
     es = Elasticsearch("http://elasticsearch:9200")
 
     if not es.ping():
@@ -15,12 +14,7 @@ def index_to_elasticsearch():
 
     print("Connected to Elasticsearch")
 
-    # Create index with mapping
     index_name = "stress_scores"
-
-    if es.indices.exists(index=index_name):
-        es.indices.delete(index=index_name)
-        print(f"Deleted existing index: {index_name}")
 
     mapping = {
         "mappings": {
@@ -44,17 +38,20 @@ def index_to_elasticsearch():
         }
     }
 
-    es.indices.create(index=index_name, body=mapping)
-    print(f"Created index: {index_name}")
+    # Only create index if it doesn't exist — never delete
+    if not es.indices.exists(index=index_name):
+        es.indices.create(index=index_name, body=mapping)
+        print(f"Created index: {index_name}")
+    else:
+        print(f"Index exists — appending new data")
 
-    # Read parquet using Spark
     spark = SparkSession.builder \
         .appName("index_elasticsearch") \
         .getOrCreate()
     spark.sparkContext.setLogLevel("ERROR")
 
     date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    base = "/data" if os.path.exists("/data") else "data"
+    base = "/opt/airflow/data" if os.path.exists("/opt/airflow/data") else "/data" if os.path.exists("/data") else "data"
     input_dir = f"{base}/usage/stress_score/{date_str}"
 
     if not os.path.exists(input_dir):
@@ -64,7 +61,6 @@ def index_to_elasticsearch():
     df = spark.read.parquet(input_dir)
     records = df.collect()
 
-    # Index each record
     indexed = 0
     for row in records:
         doc = {
@@ -85,10 +81,11 @@ def index_to_elasticsearch():
             },
             "partition_date": row["partition_date"],
             "electricity_timestamp_utc": str(row["electricity_timestamp_utc"]).replace(" ", "T"),
-            "indexed_at": datetime.now(timezone.utc).isoformat()
+            "indexed_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S")
         }
 
-        es.index(index=index_name, body=doc)
+        doc_id = f"{row['zone']}_{datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:00:00')}"
+        es.index(index=index_name, id=doc_id, body=doc)
         indexed += 1
         print(f"Indexed: {row['region_name']} — {row['sustainability_signal']}")
 
