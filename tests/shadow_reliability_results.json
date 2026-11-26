@@ -1,0 +1,99 @@
+{
+  "missing": {
+    "run_id": "reliability_missing_1f42ccac5e",
+    "decision": {
+      "recorded_at": "2026-11-25T10:34:01.609411+00:00",
+      "run_id": "reliability_missing_1f42ccac5e",
+      "job_name": "nightly-embedding-refresh",
+      "data_origin": "reliability_test",
+      "fixed_start": "2026-11-22T00:00:00+00:00",
+      "recommended_start": "2026-11-22T00:00:00+00:00",
+      "recommended_end": "2026-11-22T02:00:00+00:00",
+      "deadline_status": "projected_on_time",
+      "used_fallback": true,
+      "fallback_reason": "insufficient_forecast_coverage",
+      "estimated_emissions_saved_g": null,
+      "estimated_electricity_cost_saved_eur": null
+    }
+  },
+  "impossible": {
+    "run_id": "reliability_impossible_1f42ccac5e",
+    "decision": {
+      "recorded_at": "2026-11-25T10:34:01.612679+00:00",
+      "run_id": "reliability_impossible_1f42ccac5e",
+      "job_name": "nightly-embedding-refresh",
+      "data_origin": "reliability_test",
+      "fixed_start": "2026-11-22T00:00:00+00:00",
+      "recommended_start": null,
+      "recommended_end": null,
+      "deadline_status": "no_feasible_window",
+      "used_fallback": true,
+      "fallback_reason": "runtime_exceeds_available_time",
+      "estimated_emissions_saved_g": null,
+      "estimated_electricity_cost_saved_eur": null
+    }
+  },
+  "stale": {
+    "run_id": "reliability_stale_1f42ccac5e",
+    "decision": {
+      "recorded_at": "2026-11-25T10:34:01.640629+00:00",
+      "run_id": "reliability_stale_1f42ccac5e",
+      "job_name": "nightly-embedding-refresh",
+      "data_origin": "reliability_test",
+      "fixed_start": "2026-11-22T00:00:00+00:00",
+      "recommended_start": "2026-11-22T00:00:00+00:00",
+      "recommended_end": "2026-11-22T02:00:00+00:00",
+      "deadline_status": "projected_on_time",
+      "used_fallback": true,
+      "fallback_reason": "stale_forecast",
+      "estimated_emissions_saved_g": null,
+      "estimated_electricity_cost_saved_eur": null
+    }
+  },
+  "fresh": {
+    "run_id": "reliability_fresh_1f42ccac5e",
+    "decision": {
+      "recorded_at": "2026-11-25T10:34:01.675092+00:00",
+      "run_id": "reliability_fresh_1f42ccac5e",
+      "job_name": "nightly-embedding-refresh",
+      "data_origin": "reliability_test",
+      "fixed_start": "2026-11-22T00:00:00+00:00",
+      "recommended_start": "2026-11-22T03:00:00+00:00",
+      "recommended_end": "2026-11-22T05:00:00+00:00",
+      "deadline_status": "projected_on_time",
+      "used_fallback": false,
+      "fallback_reason": null,
+      "estimated_emissions_saved_g": 2140.0,
+      "estimated_electricity_cost_saved_eur": 2.8
+    }
+  },
+  "retry": {
+    "run_id": "reliability_fresh_1f42ccac5e",
+    "document_ids": [
+      "reliability_fresh_1f42ccac5e:0"
+    ],
+    "passed": true
+  },
+  "outage": {
+    "run_id": "reliability_outage_1f42ccac5e",
+    "outage_task_state": "up_for_retry",
+    "preserved_report": "36f4771403a878df25febe6f0002d464d9ae511c8a47dc12dc836b72da088464.json",
+    "recovered_document_ids": [
+      "reliability_outage_1f42ccac5e:0"
+    ]
+  },
+  "fallback_aggregation": [
+    {
+      "key": "insufficient_forecast_coverage",
+      "doc_count": 1
+    },
+    {
+      "key": "runtime_exceeds_available_time",
+      "doc_count": 1
+    },
+    {
+      "key": "stale_forecast",
+      "doc_count": 1
+    }
+  ]
+}

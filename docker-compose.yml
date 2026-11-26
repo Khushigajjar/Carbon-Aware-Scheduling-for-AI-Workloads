@@ -3,15 +3,16 @@ x-airflow-common: &airflow-common
   environment:
     AIRFLOW__CORE__EXECUTOR: LocalExecutor
     AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
-    AIRFLOW__CORE__FERNET_KEY: 'ZmDfcTF7_60GrrY167zsiPd67pEvs0aGOv2oasOM1Pg='
+    AIRFLOW__CORE__FERNET_KEY: "${AIRFLOW__CORE__FERNET_KEY:-}"
     AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
-    ELECTRICITY_MAPS_TOKEN: 'C9WBF5z3XDr79Kv8TCQa'
+    ELECTRICITY_MAPS_TOKEN: "${ELECTRICITY_MAPS_TOKEN:-}"
     JAVA_HOME: /usr/lib/jvm/default-java
     _PIP_ADDITIONAL_REQUIREMENTS: 'pyspark==3.4.0 elasticsearch==8.12.0 requests'
   volumes:
     - ./dags:/opt/airflow/dags
     - ./scripts:/opt/airflow/scripts
     - ./data:/opt/airflow/data
+    - airflow_logs:/opt/airflow/logs
   depends_on:
     postgres:
       condition: service_healthy
@@ -102,6 +103,8 @@ services:
 
 
 volumes:
+  airflow_logs:
+    driver: local
   elasticsearch_data:
     driver: local
   airflow_deps:

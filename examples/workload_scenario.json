@@ -1,0 +1,29 @@
+{
+  "data_origin": "synthetic",
+  "forecast": [
+    {"hour": "2026-11-22T00:00:00Z", "carbon_g_per_kwh": 85, "price_eur_per_kwh": 0.16},
+    {"hour": "2026-11-22T01:00:00Z", "carbon_g_per_kwh": 72, "price_eur_per_kwh": 0.14},
+    {"hour": "2026-11-22T02:00:00Z", "carbon_g_per_kwh": 45, "price_eur_per_kwh": 0.12},
+    {"hour": "2026-11-22T03:00:00Z", "carbon_g_per_kwh": 28, "price_eur_per_kwh": 0.09},
+    {"hour": "2026-11-22T04:00:00Z", "carbon_g_per_kwh": 22, "price_eur_per_kwh": 0.07},
+    {"hour": "2026-11-22T05:00:00Z", "carbon_g_per_kwh": 35, "price_eur_per_kwh": 0.10}
+  ],
+  "jobs": [
+    {
+      "name": "nightly-embedding-refresh",
+      "runtime_minutes": 120,
+      "energy_kwh": 40,
+      "submitted_at": "2026-11-22T00:00:00Z",
+      "deadline": "2026-11-22T06:00:00Z",
+      "fixed_start": "2026-11-22T00:00:00Z"
+    },
+    {
+      "name": "batch-classification",
+      "runtime_minutes": 90,
+      "energy_kwh": 18,
+      "submitted_at": "2026-11-22T00:30:00Z",
+      "deadline": "2026-11-22T03:30:00Z",
+      "fixed_start": "2026-11-22T01:00:00Z"
+    }
+  ]
+}

@@ -3,8 +3,6 @@ import json
 import os
 from datetime import datetime
 
-TOKEN = os.environ.get("ELECTRICITY_MAPS_TOKEN", "C9WBF5z3XDr79Kv8TCQa")
-
 REGIONS = {
     "FR": {"name": "France", "lat": 48.85, "lon": 2.35},
 }
@@ -23,10 +21,14 @@ def ingest():
             print(f"Already exists, skipping: {output_file}")
             continue
 
+        token = os.environ.get("ELECTRICITY_MAPS_TOKEN")
+        if not token:
+            raise RuntimeError("Set ELECTRICITY_MAPS_TOKEN before ingesting electricity data")
+
         response = requests.get(
             BASE_URL,
             params={"zone": zone},
-            headers={"auth-token": TOKEN}
+            headers={"auth-token": token}
         )
 
         if response.status_code == 200:
