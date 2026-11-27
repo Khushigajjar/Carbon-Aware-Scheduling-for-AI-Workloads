@@ -2,9 +2,27 @@
 
 This project recommends lower-carbon start times for flexible AI batch jobs while respecting their completion deadlines. It compares the recommendation with a fixed schedule and records projected emissions, electricity cost, and deadline compliance. Airflow runs the scheduler in shadow mode, so it records decisions without launching or rescheduling workloads.
 
+## Architecture
+
+```mermaid
+flowchart LR
+    A["Electricity Maps forecast"] --> B["Carbon-aware scheduler"]
+    C["Job runtime, energy and deadline"] --> B
+    B --> D["Airflow shadow run"]
+    B --> E["Airflow controlled execution"]
+    F["Stored French grid observations"] --> E
+    D --> G["Recommendations"]
+    E --> H["Daily ML features and run metrics"]
+    G --> I["Elasticsearch"]
+    H --> I
+    I --> J["Kibana dashboards"]
+```
+
 ## Demo results
 
 The included synthetic scenario models two batch jobs. Both recommendations fit their deadlines. Compared with the fixed schedule, they reduce estimated combined emissions from 4.274 kg to 1.708 kg CO₂, a 60% reduction, and estimated electricity costs by €3.22.
+
+![Horizontal bar chart comparing fixed and recommended schedules. Embedding refresh emissions drop from 3.140 to 1.000 kg CO₂e and batch classification emissions drop from 1.134 to 0.708 kg CO₂e.](docs/images/scheduling-demo.png)
 
 The scheduler uses hourly carbon forecasts and assumes constant power throughout each job. Electricity prices are optional and help quantify the cost difference. Workloads are evaluated independently. Live forecast scenarios require an issuance timestamp when forecast data is present, and forecasts older than six hours at job submission are treated as stale.
 
@@ -15,7 +33,6 @@ From the repository root, run:
 ```powershell
 python scripts/simulate_workloads.py examples/workload_scenario.json
 ```
-Carbon-Aware-Scheduling-for-AI-Workloads.code-workspace
 ## Run the Airflow and Kibana demo
 
 1. With Docker running, initialize Airflow on a fresh checkout:
