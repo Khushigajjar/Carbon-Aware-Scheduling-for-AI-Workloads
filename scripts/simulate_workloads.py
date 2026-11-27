@@ -128,6 +128,8 @@ def recommend(job: Job, forecast: Dict[datetime, Forecast], forecast_issue=None)
 def simulate(scenario):
     issued_at = scenario.get("forecast_issued_at")
     issued_at = utc_timestamp(issued_at) if issued_at is not None else None
+    decision_at = scenario.get("decision_at")
+    decision_at = utc_timestamp(decision_at) if decision_at is not None else None
     forecast = {}
     for row in scenario["forecast"]:
         hour = utc_timestamp(row["hour"])
@@ -158,7 +160,7 @@ def simulate(scenario):
         forecast_issue = None
         # Replay the information available when the job was submitted.
         if issued_at is not None:
-            age = job.submitted_at - issued_at
+            age = (decision_at or job.submitted_at) - issued_at
             if age < timedelta(0):
                 forecast_issue = "forecast_issued_after_submission"
             elif age > MAX_FORECAST_AGE:

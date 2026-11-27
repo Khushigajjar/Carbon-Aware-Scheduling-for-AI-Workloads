@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from tempfile import NamedTemporaryFile
 
+from live_carbon_forecast import fetch_live_scenario
 from simulate_workloads import simulate
 
 
@@ -22,6 +23,12 @@ def record_decisions(run_id, scenario, output_dir):
         "data_origin": scenario.get("data_origin", "unknown"),
         "decisions": simulate(scenario),
     }
+    if scenario.get("forecast_source"):
+        report["forecast_metadata"] = {
+            key: scenario[key] for key in (
+                "forecast_source", "forecast_zone", "forecast_issued_at", "decision_at"
+            )
+        }
     content = json.dumps(report, indent=2, default=datetime.isoformat, allow_nan=False)
     output_dir.mkdir(parents=True, exist_ok=True)
     destination = report_path(run_id, output_dir)
@@ -43,6 +50,12 @@ def main():
         output_dir = Path(os.environ["SHADOW_OUTPUT_DIR"])
         if not isinstance(scenario, dict) or not scenario.get("jobs"):
             raise ValueError("Provide a scenario containing jobs and hourly forecasts")
+        if scenario.get("forecast_source") == "electricity_maps_v5":
+            destination = report_path(run_id, output_dir)
+            if destination.exists():
+                print(f"Reusing recorded shadow recommendations in {destination}")
+                return
+            scenario = fetch_live_scenario(scenario)
         destination = record_decisions(run_id, scenario, output_dir)
     except (OSError, ValueError, KeyError, TypeError, OverflowError) as error:
         raise SystemExit(f"Could not record shadow recommendations: {error}") from error
